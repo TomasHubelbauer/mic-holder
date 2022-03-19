@@ -23,7 +23,7 @@ thickness = 2;
 // value where the shell around the bottom of the mic is not stretched and thus
 // stressed and structurally compromised but also not too loose not holding the
 // mic well.
-play = .5;
+play = .25;
 
 // A quarter of the blueprint of the mic bottom
 // The blueprint has a symmetry which makes it so that we can mirror this twice
@@ -85,10 +85,10 @@ difference() {
   cylinder(thickness * 2, 10.5, 10.5);
 
   // A cutout for the pop filter arm that wrap around the USB port protrusion
-  translate([-width, -height, thickness])
-  cube([width, height, size + thickness]);
+  translate([-width / 2 + thickness, -height, thickness])
+  cube([width / 2 - thickness, height, size + thickness]);
 
   // A cutout for the control panel on the side of the mic (jack + knobs)
-  translate([0, -15, thickness])
-  cube([width, 30, size + thickness]);
+  translate([0, -15, thickness + 11])
+  cube([width, 30, size]);
 }
