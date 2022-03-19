@@ -26,6 +26,9 @@ thickness = 2;
 // mic well.
 play = .25;
 
+// The height of the stand part of the assembly
+stand_depth = 10;
+
 // A quarter of the blueprint of the mic bottom
 // The blueprint has a symmetry which makes it so that we can mirror this twice
 // and get the whole shape.
@@ -72,9 +75,16 @@ outerFactor = (width + play * 2 + thickness * 2) / (width + play * 2);
 
 // The outer shell in which the microphone can sit snugly
 difference() {
-  // The scaled version of the mic outline offset to make room for the walls
-  scale(outerFactor)
-  c(size);
+  union() {
+    // The scaled version of the mic outline offset to make room for the walls
+    scale(outerFactor)
+    c(size);
+
+    // The same shape in the other direction extending to be the stand column
+    scale(outerFactor)
+    translate([0, 0, -stand_depth])
+    c(stand_depth);
+  }
 
   // The internal unscaled mic outline shape removed to carve out the space
   translate([0, 0, thickness])
@@ -82,8 +92,8 @@ difference() {
   c(thickness + size * outerFactor);
 
   // A hole for the USB connector protrusion to be able to get through
-  translate([0, 0, -thickness / 2])
-  cylinder(thickness * 2, 10.5, 10.5);
+  translate([0, 0, -thickness / 2 - stand_depth])
+  cylinder(thickness * 2 + stand_depth, 10.5, 10.5);
 
   // A cutout for the pop filter arm that wrap around the USB port protrusion
   translate([-width / 2 + thickness, -height, thickness])
