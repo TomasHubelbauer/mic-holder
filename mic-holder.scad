@@ -18,6 +18,13 @@ size = 30;
 // The thickness of the wall of the shape
 thickness = 2;
 
+// The amount of play to add between the mic and the holder
+// This is here to ensure I can adjust the fit iteratively until I find a good
+// value where the shell around the bottom of the mic is not stretched and thus
+// stressed and structurally compromised but also not too loose not holding the
+// mic well.
+play = .5;
+
 // A quarter of the blueprint of the mic bottom
 // The blueprint has a symmetry which makes it so that we can mirror this twice
 // and get the whole shape.
@@ -59,19 +66,29 @@ module c(size) {
 // The calculation takes the size with the walls and divides it by the actual
 // size producing the scale factor needed to raise the dimensions to grow to
 // the larger size.
-factor = (width + thickness * 2) / width;
+innerFactor = (width + play * 2) / width;
+outerFactor = (width + play * 2 + thickness * 2) / (width + play * 2);
 
 // The outer shell in which the microphone can sit snugly
 difference() {
   // The scaled version of the mic outline offset to make room for the walls
-  scale(factor)
+  scale(outerFactor)
   c(size);
 
   // The internal unscaled mic outline shape removed to carve out the space
   translate([0, 0, thickness])
+  scale(innerFactor)
   c(size + thickness);
 
   // A hole for the USB connector protrusion to be able to get through
   translate([0, 0, -thickness / 2])
   cylinder(thickness * 2, 10.5, 10.5);
+
+  // A cutout for the pop filter arm that wrap around the USB port protrusion
+  translate([-width, -height, thickness])
+  cube([width, height, size + thickness]);
+
+  // A cutout for the control panel on the side of the mic (jack + knobs)
+  translate([0, -15, thickness])
+  cube([width, 30, size + thickness]);
 }
