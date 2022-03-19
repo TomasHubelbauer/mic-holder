@@ -13,6 +13,7 @@ height = 46;
 // The height of the mic holder
 // Selected at this value so that the test print would surpass the protruding
 // USB port and reach the bottom of the mic to be able to test fit the shape.
+// 80 mm is the amount needed to reach the mid line around the mic.
 size = 30;
 
 // The thickness of the wall of the shape
@@ -77,8 +78,8 @@ difference() {
 
   // The internal unscaled mic outline shape removed to carve out the space
   translate([0, 0, thickness])
-  scale(innerFactor)
-  c(size + thickness);
+  scale([innerFactor, innerFactor, 1])
+  c(thickness + size * outerFactor);
 
   // A hole for the USB connector protrusion to be able to get through
   translate([0, 0, -thickness / 2])
@@ -86,7 +87,7 @@ difference() {
 
   // A cutout for the pop filter arm that wrap around the USB port protrusion
   translate([-width / 2 + thickness, -height, thickness])
-  cube([width / 2 - thickness, height, size + thickness]);
+  cube([width / 2 - thickness, height, thickness + size * outerFactor]);
 
   // A cutout for the control panel on the side of the mic (jack + knobs)
   translate([0, -15, thickness + 11])
