@@ -90,6 +90,7 @@ difference() {
   cube([width / 2 - thickness, height, thickness + size * outerFactor]);
 
   // A cutout for the control panel on the side of the mic (jack + knobs)
-  translate([0, -15, thickness + 11])
-  cube([width, 30, size]);
+  translate([0, 5, thickness + 26]) cube([width, 10, size]);
+  translate([0, -5, thickness + 11]) cube([width, 10, size]);
+  translate([0, -15, thickness + 26]) cube([width, 10, size]);
 }
