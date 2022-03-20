@@ -14,7 +14,7 @@ height = 46;
 // Selected at this value so that the test print would surpass the protruding
 // USB port and reach the bottom of the mic to be able to test fit the shape.
 // 80 mm is the amount needed to reach the mid line around the mic.
-size = 30;
+size = 80;
 
 // The thickness of the wall of the shape
 thickness = 2;
@@ -27,7 +27,7 @@ thickness = 2;
 play = .25;
 
 // The height of the stand part of the assembly
-stand_depth = 10;
+stand_depth = 80;
 
 // A quarter of the blueprint of the mic bottom
 // The blueprint has a symmetry which makes it so that we can mirror this twice
@@ -92,8 +92,11 @@ difference() {
   c(thickness + size * outerFactor);
 
   // A hole for the USB connector protrusion to be able to get through
-  translate([0, 0, -thickness / 2 - stand_depth])
-  cylinder(thickness * 2 + stand_depth, 10.5, 10.5);
+  translate([0, 0, -58])
+  cylinder(60, 10.5, 10.5);
+
+  translate([-10, 0, -58])
+  cube([20, 40, 60]);
 
   // A cutout for the pop filter arm that wrap around the USB port protrusion
   translate([-width / 2 + thickness, -height, thickness])
